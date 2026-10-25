@@ -70,7 +70,7 @@ Every push to `main` updates the live site.
 ### 3. Each two weeks
 
 1. Open `admin.html` and sign in.
-2. Click **Start period** (the first one starts Mon Oct 26, 2026). Each period is 14 days.
+2. Click **Start Week 1–2** (the first period is Oct 5 – Oct 18, 2026). Each period is 14 days, Monday to Sunday, and the winner is announced the Tuesday after. Change `programStart` and `announceAfterDays` in `config.js` to adjust.
 3. Enter scores as you observe them and click **Save scores**. Totals and ranks update as you type.
 4. When the two weeks end and all scores are in, click **Mark final**. The leader gets the certificate on the scoreboard and it counts toward the 6-month $250 race.
 

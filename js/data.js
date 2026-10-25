@@ -32,5 +32,16 @@ window.DB = (() => {
     return { overall: n + 1, inCycle: (((n % per) + per) % per) + 1, cycle: Math.floor(n / per) };
   }
 
-  return { client, configured, config, loadAll, addDays, fmtDay, fmtPoints, periodNumber };
+  // "Week 3–4" for the second period of the program.
+  function weekLabel(startDate) {
+    const n = periodNumber(startDate).overall;
+    return `Week ${2 * n - 1}\u2013${2 * n}`;
+  }
+
+  // The day the Best Employee is announced, e.g. the Tuesday after a period ends.
+  const announceDate = (endDate) => addDays(endDate, config.announceAfterDays ?? 2);
+
+  const periodTitle = (p) => `${weekLabel(p.start_date)} · ${fmtDay(p.start_date)} – ${fmtDay(p.end_date)}`;
+
+  return { client, configured, config, loadAll, addDays, fmtDay, fmtPoints, periodNumber, weekLabel, announceDate, periodTitle };
 })();

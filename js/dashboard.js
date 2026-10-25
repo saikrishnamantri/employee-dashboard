@@ -1,6 +1,6 @@
 (() => {
   const { CATEGORIES, MAX_TOTAL, scorePeriod } = window.Scoring;
-  const { fmtDay, fmtPoints: pts, periodNumber, config } = window.DB;
+  const { fmtDay, fmtPoints: pts, periodNumber, weekLabel, announceDate, periodTitle, config } = window.DB;
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => {
     const e = document.createElement(tag);
@@ -46,7 +46,7 @@
     }
     const sel = $('period');
     if (!sel.options.length) {
-      sel.replaceChildren(...periods.map((p) => new Option(`${fmtDay(p.start_date)} – ${fmtDay(p.end_date)}${p.status === 'final' ? '' : ' (in progress)'}`, p.id)));
+      sel.replaceChildren(...periods.map((p) => new Option(`${periodTitle(p)}${p.status === 'final' ? '' : ' (in progress)'}`, p.id)));
       const hash = location.hash.slice(1);
       sel.value = periods.some((p) => p.id === hash) ? hash : periods[periods.length - 1].id;
     }
@@ -61,7 +61,9 @@
     $('lead-label').textContent = final ? 'Best Employee' : 'Leading this period';
     const pill = $('t-status');
     pill.className = 'pill ' + (final ? 'final' : 'live');
-    pill.textContent = final ? 'Final · certificate + $50' : `In progress · ends ${fmtDay(period.end_date)}`;
+    pill.textContent = final
+      ? `Final · announced ${fmtDay(announceDate(period.end_date))}`
+      : `In progress · ends ${fmtDay(period.end_date)} · announced ${fmtDay(announceDate(period.end_date))}`;
     $('t-leader').textContent = top ? (rows.filter((r) => r.rank === 1).length > 1 ? 'Tie' : top.employee.name) : '—';
     $('t-total').textContent = top ? pts(top.total) : '—';
     $('t-margin').textContent = next ? pts(top.total - next.total) : '—';
@@ -79,10 +81,10 @@
 
     // Takeaway
     const tk = $('takeaway');
-    if (!top) tk.textContent = `Period ${num.overall} (${fmtDay(period.start_date)} – ${fmtDay(period.end_date)}) has no scores yet.`;
+    if (!top) tk.textContent = `${periodTitle(period)} has no scores yet.`;
     else {
       const b = (t) => el('b', null, t);
-      const parts = [b(top.employee.name), final ? ' won period ' : ' leads period ', b(String(num.overall)), ' with ', b(pts(top.total)), ` of ${MAX_TOTAL} points`];
+      const parts = [b(top.employee.name), final ? ' won ' : ' leads ', b(weekLabel(period.start_date)), ' with ', b(pts(top.total)), ` of ${MAX_TOTAL} points`];
       if (next && next.total === top.total) parts.push(', tied with ', b(next.employee.name), '.');
       else if (next) parts.push(', ', b(pts(top.total - next.total)), ' ahead of ', b(next.employee.name), '.');
       else parts.push('.');

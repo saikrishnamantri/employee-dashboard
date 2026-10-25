@@ -1,6 +1,6 @@
 (() => {
   const { scorePeriod } = window.Scoring;
-  const { client, configured, config, addDays, fmtDay, fmtPoints: pts } = window.DB;
+  const { client, configured, config, addDays, fmtDay, fmtPoints: pts, weekLabel, announceDate, periodTitle } = window.DB;
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => {
     const e = document.createElement(tag);
@@ -123,7 +123,7 @@
   // ---------- Periods ----------
   function renderPeriods() {
     const sel = $('period');
-    sel.replaceChildren(...data.periods.map((p) => new Option(`${fmtDay(p.start_date)} – ${fmtDay(p.end_date)}`, p.id)));
+    sel.replaceChildren(...data.periods.map((p) => new Option(periodTitle(p), p.id)));
     const p = currentPeriod();
     const final = p && p.status === 'final';
     if (p) sel.value = p.id;
@@ -135,12 +135,12 @@
     $('final-btn').textContent = final ? 'Reopen period' : 'Mark final';
     const last = data.periods[data.periods.length - 1];
     const nextStart = last ? addDays(last.end_date, 1) : config.programStart;
-    $('new-period-btn').textContent = `Start period ${fmtDay(nextStart)} – ${fmtDay(addDays(nextStart, 13))}`;
+    $('new-period-btn').textContent = `Start ${weekLabel(nextStart)} (${fmtDay(nextStart)} – ${fmtDay(addDays(nextStart, 13))})`;
     $('period-help').textContent = !p
       ? 'Start the first two-week period to begin entering scores.'
       : final
         ? 'This period is final: the winner has their certificate. Reopen it only to correct a mistake.'
-        : 'When the two weeks are over and every score is in, mark the period final to award the certificate.';
+        : `Scoring ends ${fmtDay(p.end_date)}. Mark the period final once every score is in, before the announcement on ${fmtDay(announceDate(p.end_date))}.`;
   }
 
   $('period').addEventListener('change', () => {
@@ -166,7 +166,7 @@
     }
     periodId = data.periods[data.periods.length - 1].id;
     renderAll();
-    toast(`Started ${fmtDay(row.start_date)} – ${fmtDay(row.end_date)}`);
+    toast(`Started ${periodTitle(row)}`);
   });
 
   $('final-btn').addEventListener('click', async () => {

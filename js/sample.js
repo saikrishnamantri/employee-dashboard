@@ -13,7 +13,7 @@ window.SAMPLE_DATA = (() => {
     ['Grace', 'Crew', 16, 12, 15, 2, 13, 11, 7],
   ];
   const employees = people.map(([name, role], i) => ({ id: 'e' + i, name, role, active: true }));
-  const periods = [{ id: 'p1', start_date: '2026-10-26', end_date: '2026-11-08', status: 'in_progress' }];
+  const periods = [{ id: 'p1', start_date: '2026-10-19', end_date: '2026-11-01', status: 'in_progress' }];
   const scores = people.map(([, , cs, cl, gr, tv, un, up, qr], i) => ({
     period_id: 'p1', employee_id: 'e' + i,
     customer_service: cs, cleaning: cl, google_reviews: gr, teamwork_votes: tv,
