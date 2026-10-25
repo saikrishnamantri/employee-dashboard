@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Best Employee Scoreboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600&family=Public+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <div id="banner" class="banner" hidden></div>
+
+    <header class="top" id="overview">
+      <div>
+        <p class="eyebrow"><span id="store">Best Employee</span> · Bi-weekly incentive</p>
+        <h1>Best Employee scoreboard</h1>
+        <p class="take" id="takeaway">Loading scores…</p>
+      </div>
+      <div class="nav">
+        <label class="field" for="period">Two-week period
+          <select id="period"></select>
+        </label>
+        <a class="btn" href="admin.html">Admin login</a>
+      </div>
+    </header>
+
+    <section class="tiles" id="tiles">
+      <div class="card tile win">
+        <span class="lbl" id="lead-label">Leading this period</span>
+        <span class="num" id="t-leader">—</span>
+        <span id="t-status" class="pill live">—</span>
+      </div>
+      <div class="card tile">
+        <span class="lbl">Leader's score</span>
+        <span class="num"><span id="t-total">—</span> <small>/ 100</small></span>
+        <span class="sub">Points across all 7 categories</span>
+      </div>
+      <div class="card tile">
+        <span class="lbl">Lead over 2nd place</span>
+        <span class="num" id="t-margin">—</span>
+        <span class="sub" id="t-runner">points</span>
+      </div>
+      <div class="card tile">
+        <span class="lbl">Team average</span>
+        <span class="num" id="t-avg">—</span>
+        <span class="sub">Points per employee</span>
+      </div>
+      <div class="card tile">
+        <span class="lbl">Google reviews generated</span>
+        <span class="num" id="t-reviews">—</span>
+        <span class="sub">All employees, this period</span>
+      </div>
+    </section>
+
+    <section class="card" id="leaderboard">
+      <h2>Leaderboard</h2>
+      <p class="note">Ranked by total points. The bar shows where each person's points came from. Highest total when the period closes wins the certificate and the $50 bonus.</p>
+      <div class="legend" id="legend"></div>
+      <div class="scroll">
+        <table>
+          <thead id="board-head"></thead>
+          <tbody id="board"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="board-empty" hidden>No scores entered for this period yet.</p>
+    </section>
+
+    <div class="grid2">
+      <section class="card" id="categories">
+        <h2>Where the team is strong, and where to coach</h2>
+        <p class="note">Team average in each category as a share of its maximum, with the top performer to recognize. The red bar is the category to focus on next.</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th class="l">Category</th><th>Team avg</th><th>Of max</th><th class="l">Top performer</th><th>Pts</th></tr></thead>
+            <tbody id="cats"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" id="certificates">
+        <h2>6-month certificate race</h2>
+        <p class="note">Most Best Employee certificates after 6 months earns an extra $250. <span id="cycle-note"></span></p>
+        <table id="cert-table">
+          <thead><tr><th class="l">Employee</th><th>Certificates</th></tr></thead>
+          <tbody id="certs"></tbody>
+        </table>
+        <p class="empty" id="cert-empty" hidden>No certificates awarded yet. The first goes to the leader when an admin marks the current period final.</p>
+      </section>
+    </div>
+
+    <section class="card" id="rules">
+      <h2>How the points work</h2>
+      <p class="note">100 points in total. Each category is capped at its maximum.</p>
+      <ul class="rules">
+        <li><b>20</b><span><strong>Customer service</strong>Supervisor and manager observation: communication, friendliness, helpfulness.</span></li>
+        <li><b>15</b><span><strong>Cleaning duties</strong>Assigned area kept up for the full two weeks. Random checks can deduct points.</span></li>
+        <li><b>10</b><span><strong>Google reviews</strong>20 or more reviews earns full points. Fewer earns a proportional share.</span></li>
+        <li><b>15</b><span><strong>Teamwork</strong>Peer vote. Most votes earns 15. Others earn a share relative to the top vote count.</span></li>
+        <li><b>15</b><span><strong>Uniform, hygiene &amp; meals</strong>Uniform, visor, proper pants, slip-resistant shoes, meal policy, hygiene.</span></li>
+        <li><b>15</b><span><strong>Upselling</strong>Large fries, large drink, add fries, 2 pies for $3. Checked at random.</span></li>
+        <li><b>10</b><span><strong>Online quiz</strong>Rank 1–3: 10 · Rank 4: 9 · Rank 5: 8 · Rank 6–10: 5 · Others: 0.</span></li>
+      </ul>
+    </section>
+
+    <p class="foot">Reward: Best Employee certificate and $50 bonus every two weeks. Most certificates after 6 months: extra $250.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="js/sample.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

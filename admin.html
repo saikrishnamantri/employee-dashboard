@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>Scoreboard Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600&family=Public+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Sign-in -->
+  <section class="login card" id="login-view" hidden>
+    <div>
+      <p class="eyebrow">Best Employee scoreboard</p>
+      <h1>Admin sign in</h1>
+      <p class="note">For managers and supervisors who enter scores.</p>
+    </div>
+    <div id="setup" class="banner" hidden>
+      <b>Not connected yet.</b> Add your Supabase project to <code>config.js</code> to turn on sign-in (README, step 1).
+      <p><button type="button" id="preview-btn">Preview with sample data</button></p>
+    </div>
+    <form id="login-form">
+      <label class="field" for="email">Email
+        <input type="email" id="email" autocomplete="username" required>
+      </label>
+      <label class="field" for="password">Password
+        <input type="password" id="password" autocomplete="current-password" required>
+      </label>
+      <button class="primary" type="submit" id="login-btn">Sign in</button>
+      <p class="error" id="login-error" role="alert" hidden></p>
+    </form>
+    <a href="index.html">← Back to scoreboard</a>
+  </section>
+
+  <!-- Admin workspace -->
+  <main class="wrap" id="admin-view" hidden>
+    <div id="preview-banner" class="banner" hidden><b>Preview mode.</b> Sample data only. Nothing you change here is saved.</div>
+
+    <header class="top">
+      <div>
+        <p class="eyebrow">Admin · <span id="who"></span></p>
+        <h1>Enter scores</h1>
+      </div>
+      <div class="nav">
+        <a class="btn" href="index.html">View scoreboard</a>
+        <button type="button" id="logout-btn">Sign out</button>
+      </div>
+    </header>
+
+    <section class="card" id="period-card">
+      <div class="toolbar">
+        <label class="field" for="period">Two-week period
+          <select id="period"></select>
+        </label>
+        <span id="period-status" class="pill live">—</span>
+        <span class="spacer"></span>
+        <button type="button" id="final-btn">Mark final</button>
+        <button type="button" id="new-period-btn">Start next period</button>
+      </div>
+      <p class="note" id="period-help"></p>
+    </section>
+
+    <section class="card entry" id="entry-card">
+      <div class="toolbar">
+        <div>
+          <h2>Scores for this period</h2>
+          <p class="note">Enter what you observed. Points and totals update as you type. Leave a box empty if it hasn't been scored yet; it counts as 0.</p>
+        </div>
+        <span class="spacer"></span>
+        <span class="dirty" id="dirty" hidden>Unsaved changes</span>
+        <button type="button" class="primary" id="save-btn" disabled>Save scores</button>
+      </div>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="l">Employee</th>
+              <th>Service<span class="max">0–20</span></th>
+              <th>Cleaning<span class="max">0–15</span></th>
+              <th>Reviews<span class="max">count</span></th>
+              <th>Team votes<span class="max">count</span></th>
+              <th>Uniform<span class="max">0–15</span></th>
+              <th>Upsell<span class="max">0–15</span></th>
+              <th>Quiz rank<span class="max">1, 2, 3…</span></th>
+              <th>Total<span class="max">of 100</span></th>
+              <th>Rank</th>
+            </tr>
+          </thead>
+          <tbody id="entry"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="entry-empty" hidden>Add employees below to start entering scores.</p>
+    </section>
+
+    <section class="card people" id="people-card">
+      <h2>Employees</h2>
+      <p class="note">Turn someone off when they leave. Their past scores stay on the scoreboard.</p>
+      <form id="add-form">
+        <input type="text" id="new-name" placeholder="Name" required aria-label="Employee name">
+        <input type="text" id="new-role" placeholder="Role (e.g. Crew)" list="roles" aria-label="Role">
+        <datalist id="roles"><option value="Crew"><option value="Shift lead"><option value="Supervisor"></datalist>
+        <button type="submit">Add employee</button>
+      </form>
+      <div id="people"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="js/sample.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
