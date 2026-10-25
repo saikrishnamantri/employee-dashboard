@@ -53,6 +53,15 @@ as $$
   select exists (select 1 from public.admins where user_id = auth.uid());
 $$;
 
+-- Let the website reach the tables at all. Newer Supabase projects don't grant
+-- this automatically. The row level security policies below still decide who can
+-- read or change what.
+grant usage on schema public to anon, authenticated;
+grant select on public.employees, public.periods, public.scores to anon, authenticated;
+grant insert, update, delete on public.employees, public.periods, public.scores to authenticated;
+grant select on public.admins to authenticated;
+grant execute on function public.is_admin() to anon, authenticated;
+
 alter table public.employees enable row level security;
 alter table public.periods enable row level security;
 alter table public.scores enable row level security;
