@@ -61,9 +61,10 @@
     $('lead-label').textContent = final ? 'Best Employee' : 'Leading this period';
     const pill = $('t-status');
     pill.className = 'pill ' + (final ? 'final' : 'live');
-    pill.textContent = final
-      ? `Final · announced ${fmtDay(announceDate(period.end_date))}`
-      : `In progress · ends ${fmtDay(period.end_date)} · announced ${fmtDay(announceDate(period.end_date))}`;
+    pill.textContent = final ? 'Final' : 'In progress';
+    $('t-dates').textContent = final
+      ? `Announced ${fmtDay(announceDate(period.end_date))}`
+      : `Ends ${fmtDay(period.end_date)} · Announced ${fmtDay(announceDate(period.end_date))}`;
     $('t-leader').textContent = top ? (rows.filter((r) => r.rank === 1).length > 1 ? 'Tie' : top.employee.name) : '—';
     $('t-total').textContent = top ? pts(top.total) : '—';
     $('t-margin').textContent = next ? pts(top.total - next.total) : '—';
